@@ -1,0 +1,15 @@
+Running suite view
+check_view.c:287:P:view_create:test_view_create:0: Passed
+check_view.c:363:P:view_misc:test_view_misc:0: Passed
+check_view.c:396:P:view_objects_thread:test_view_objects_thread:0: Passed
+check_view.c:440:P:view_objects_library:test_view_objects_library:0: Passed
+check_view.c:465:P:view_objects_breakpoint:test_view_objects_breakpoint:0: Passed
+check_view.c:586:P:view_objects_stack:test_view_objects_stack:0: Passed
+check_view.c:611:P:view_objects_dis:test_view_objects_dis:0: Passed
+check_view.c:635:P:view_objects_reg:test_view_objects_reg:0: Passed
+check_view.c:689:P:view_goto:test_view_goto:0: Passed
+check_view.c:728:P:view_move:test_view_move:0: Passed
+check_view.c:775:P:view_tag:test_view_tag:0: Passed
+check_view.c:855:P:view_curpos:test_view_curpos:0: Passed
+Results for all suites run:
+100%: Checks: 12, Failures: 0, Errors: 0

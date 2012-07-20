@@ -1,0 +1,1048 @@
+\input texinfo   @c -*-texinfo-*-
+@c %**start of header
+@setfilename lvdbg.info
+@include version.texi
+@settitle Lvdbg @value{VERSION}
+@syncodeindex fn cp
+@syncodeindex tp cp
+@syncodeindex vr cp
+@c %**end of header
+
+@copying
+This manual is for Lvdbg (version @value{VERSION}, @value{UPDATED}), a
+simple front end debugger.
+
+Copyright @copyright{} 2012 Kenneth Olsson.
+
+@quotation
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the @acronym{GNU} Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with no Invariant
+Sections, no Front-Cover texts, and no Back-Cover Texts.  A copy of the license
+is included in the section entitled ``@acronym{GNU} Free Documentation
+License.''
+@end quotation
+@end copying
+
+@dircategory Software development
+@direntry
+* Lvdbg: (lvdbg)Introduction.
+@end direntry
+
+@titlepage
+@title Lvdbg
+@subtitle A simple front end for debuggers.
+@subtitle for version @value{VERSION}, @value{UPDATED}
+@author Kenneth Olsson
+
+@c The following two commands start the copyright page.
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@c Output the table of contents at the beginning.
+@contents
+
+@ifnottex
+@node Top, Introduction, (dir), (dir)
+@top Lvdbg
+
+@insertcopying
+
+@end ifnottex
+
+@menu
+* Introduction::                A short introduction
+* Invocation::                  How to start lvdbg
+* Windows::                     The view of lvdbg
+* Tutorial::                    Getting used to lvdbg
+* Configuration::               How to use a configuration file
+* Key Bindings::                Key bindings
+* Copying This Manual::         
+* List of examples::            
+* Index::                       
+
+@detailmenu
+ --- The Detailed Node Listing ---
+
+Windows
+
+* Main::                        Main window
+* Messages::                    Lvdbg messages
+* Log::                         Debugger messages
+* Target::                      Program outputs
+* Responses::                   Responses from the debugger
+* Thread::                      Thread informations
+* Breakpoints window::          Breakpoints
+* Libraries::                   Loaded libraries
+* Stack and Frame windows::     The stack
+* Disassembly and registers::   
+
+Tutorial
+
+* Starting::                    Starting a session
+* Moving around::               Using windows
+* Execution::                   Running a program
+* Breakpoints::                 Using breakpoints
+* The stack::                   Examine the stack
+* Threads::                     About threads
+* Data::                        Examine data from the debugger
+
+* User input::                  
+
+Configuration
+
+* General::                     General concept
+* View layout::                 The layout of the view
+* Syntax highlighting::         Syntax highlighting
+* Misc options::                Misc options.
+
+Copying This Manual
+
+* GNU Free Documentation License::  License for copying this manual.
+
+@end detailmenu
+@end menu
+
+@node Introduction, Invocation, Top, Top
+@chapter Introduction
+@cindex introduction
+
+The lvdbg is a front end for debuggers that is compatible with the
+@acronym{GDB}'s mi2 interface. The front end utilizes the ncurse library as it's
+interface.
+
+The first chapter describes how to start the front end and @xref{Configuration},
+how to configure lvdbg to suit your need.
+
+@xref{Tutorial}, is a short tutorial with the purpose of getting you familiar
+with both lvdbg and debugging in general. The tutorial comes with a small set of
+examples to demonstrate debugging.
+
+@xref{Key Bindings}, lists the default key bindings and could be used as a
+quickref of how to use lvdbg.
+
+@node Invocation, Windows, Introduction, Top
+@chapter Invocation
+@cindex invocation
+
+@example
+Usage: lvdbg [OPTION...] DEBUGGER [DEBUGGER ARGS]
+
+  -c, --conf=FILE            Use configure FILE
+  -o, --output=FILE          Output to FILE
+  -q, --quiet                Don't produce any output
+  -v, --verbose              Produce verbose output
+  -?, --help                 Give this help list
+      --usage                Give a short usage message
+  -V, --version Print program version
+@end example
+
+Use the @option{-c, --conf=FILE} option to use a specific configuration file.
+If the option is not given, lvdbg will use @code{/etc/lvdbg.conf/} and
+@code{~/.lvdbg.conf}. @xref{Configuration}, for how to use a configuration file.
+
+To start a debugging @code{docs/examples/example_1}:
+
+@example
+lvdbg gdb docs/examples/example_1
+@end example
+
+To load a core file for example_1:
+
+@example
+lvdbg gdb docs/examples/example_1 core
+@end example
+
+@node Windows, Tutorial, Invocation, Top
+@chapter Windows
+@cindex windows
+
+The lvdbg set ups a number of windows and they are described in this chapter.
+The layout of the view could be set using the configuration file,
+@xref{Configuration}, for more information about configuring the layout.
+
+Depending on the layout all windows might not be visible, e.g. with the default
+layout Messages, Log, Target, Library and Response are stacked on top of each
+other. Windows that are stacked on each other are a group of windows. To change
+focus from one group to another use the @kbd{@key{TAB}} and
+@kbd{S-@key{TAB}}. To select another window within a group, use the
+left- and right-keys. E.g. to select the Response window first use the
+@kbd{@key{TAB}} to select the Message window and the use arrow-keys to select
+the Responses window.
+
+Lvdbg also has different views. To toggle between the views use
+@kbd{C-@key{LEFT}} and @kbd{C-@key{RIGHT}}.
+
+The color of the windows could be set by using the configuration file.
+
+@menu
+* Main::                        Main window
+* Messages::                    Lvdbg messages
+* Log::                         Debugger messages
+* Target::                      Program outputs
+* Responses::                   Responses from the debugger
+* Thread::                      Thread informations
+* Breakpoints window::          Breakpoints
+* Libraries::                   Loaded libraries
+* Stack and Frame windows::     The stack
+* Disassembly and registers::   
+@end menu
+
+@node Main, Messages, Windows, Windows
+@section Main window
+@cindex main window
+
+The main window is used to show source files. The beginning of the lines could
+have marks indicating breakpoints, the line where the execution stopped and the
+current cursor position.
+
+The breakpoints are marked with @samp{B} if the breakpoint is to be kept if the
+execution is stopped by the breakpoint. A @samp{b} marks that the breakpoint
+will be deleted once the execution stops due to the break point. If the
+breakpoint is enabled there will be an @samp{e} and if it is disabled the will
+be a @samp{d}.
+
+The current line of execution is marked with a @samp{S}.
+
+It is also possible to move around in the source file and the current position
+is marked with that the line is shown reversed colors.
+
+@node Messages, Log, Main, Windows
+@section Messages window
+@cindex messages window
+
+Messages from lvdbg will be shown in the Messages window. E.g. if the execution
+stopped and the reason for stopping.
+
+To see previous messages you can scroll the window using up- and down keys.
+
+@node Log, Target, Messages, Windows
+@section Log window
+@cindex log window
+
+The log window is used for information sent from the debugger itself.
+
+@node Target, Responses, Log, Windows
+@section Target window
+@cindex target window
+
+All output from the program that is debugged are sent to the target window.
+
+@node Responses, Thread, Target, Windows
+@section Responses window
+@cindex responses window
+
+The response window is used to show the responses of the commands sent to the
+debugger.
+
+@node Thread, Breakpoints window, Responses, Windows
+@section Thread window
+@cindex thread window
+
+The Thread window shows the current thread groups and the threads in
+the groups. To chose a specific thread mark the thread with @kbd{@key{UP}}
+and @kbd{@key{DOWN}} and press @kbd{@key{Enter}}.
+
+@node Breakpoints window, Libraries, Thread, Windows
+@section Breakpoints window
+@cindex breakpoints window
+
+The Breakpoints window shows the current set breakpoints and watchpoints. The
+window could be used to manipulate the current breakpoints. To choose a
+breakpoint use the up- and down-keys. To see the location of a breakpoint in the
+press the @kbd{@key{Enter}}. To change the behavior for a breakpoint press
+@kbd{@key{B}}.
+
+The set watchpoints are also shown in the Breakpoint window.
+
+For more information regarding breakpoints and watchpoint, @xref{Breakpoints}.
+
+@node Libraries, Stack and Frame windows, Breakpoints window, Windows
+@section Libraries window
+@cindex libraries window
+
+The libraries loaded will be shown, yes You are right, in the Library window.
+The three names of the library are: the id of the library, the library name at
+the target and the name of the library at the host. If the symbols are available
+it will be shown at end of each library line.
+
+@node Stack and Frame windows, Disassembly and registers, Libraries, Windows
+@section Stack and Frame windows
+@cindex stack and frame windows
+@cindex frame window
+
+The current stack is shown in the Stack window. To select a specific frame use
+the @kbd{UP}- and @kbd{DOWN}-keys and press the @kbd{@key{Enter}}. The Frame
+window will then show the selected frame. The current line of the frame will be
+shown in the Main window, if the source file is available. The function's
+arguments and it's variables are shown in the Frame window.
+
+@node Disassembly and registers,  , Stack and Frame windows, Windows
+@section Disassemble and registers
+@cindex disassemble window
+@cindex register window
+
+The disassembly window shows the disassembly of the current
+function. The register window shows the registers and their current
+values. To see the windows use @kbd{C-@key{RIGHT}} and
+@kbd{C-@key{LEFT}}.
+
+To see anything you have to enable the disassembly by pressing @kbd{d}.
+
+@node Tutorial, Configuration, Windows, Top
+@chapter Tutorial
+@cindex tutorial
+
+The following chapters will give a short introduction to lvdbg. To better
+illustrate the feature we will have short examples in C.
+
+If you are familiar with debugging before you can skip this chapter.
+
+@menu
+* Starting::                    Starting a session
+* Moving around::               Using windows
+* Execution::                   Running a program
+* Breakpoints::                 Using breakpoints
+* The stack::                   Examine the stack
+* Threads::                     About threads
+* Data::                        Examine data from the debugger
+
+* User input::                  
+@end menu
+
+@node Starting, Moving around, Tutorial, Tutorial
+@section Starting
+@cindex starting
+
+To start the lvdbg and debugging the example program @file{example_1}:
+
+@example
+lvdbg gdb docs/examples/example_1
+@end example
+
+At the start up most of the lvdbg's windows are empty as no program is being
+run. For a description of the available windows, @xref{Windows}. The Messages
+window will show that the @file{example_1} is loaded and are ready for
+debugging.
+
+To start the debugging press @kbd{F3}. The lvdbg will start running the
+@file{example_1} until the first line of the @code{main()} function.  The
+Main window will now show the @file{example_1.c} file and it will have
+a marker `S' at the next line that will be executed.
+
+@float Example,ex:example1
+@example
+   #include <stdlib.h>
+
+   int foo(int *p);
+   int bar(int *p);
+
+   int
+   bar(int *p)
+   @{
+     return foo(p);
+   @}
+
+   int
+   foo(int *p)
+   @{
+     int n = 0xdead;
+
+     *p = n;
+
+     return *p;
+   @}
+
+   int
+   main(int argc, char *argv[])
+   @{
+  S  int *p = NULL;
+
+     bar(p);
+
+     return 0;
+   @}
+@end example
+@end float
+
+As the program is stopped the lvdbg windows are are updated with new
+information.
+In the Main window the @code{S} denotes the next line of execution. The Thread
+window shows the current threads and if they still are running or not. The
+Stack and frame windows are also updated.
+
+To get out of lvdbg press @kbd{C-q}.
+
+@subsection Summary
+
+@table @code
+
+@item lvdbg gdb docs/examples/example_1
+Start the lvdbg and debug example_1
+
+@item F3
+Starts the program and runs until the @code{main()} function.
+
+@item S
+Denotes the next line of execution.
+
+@item C-q
+To quit lvdbg.
+
+@end table
+
+@node Moving around, Execution, Starting, Tutorial
+@section Moving around
+@cindex moving around
+
+To set focus on another window use the @kbd{@key{TAB}} and
+@kbd{S-@key{TAB}}. In the default layout not all windows are visible. 
+To see a non-visible window, first set focus on the
+`Messages'-window. You can then make the other visible 
+using the @kbd{@key{LEFT}} and @kbd{@key{RIGHT}}.
+
+Some of the windows has a cursor, showing the current selected line. To move
+the cursor you could use the @kbd{@key{UP}} and @kbd{@key{DOWN}}.
+
+The lvdbg has different views. To switch between view use
+@kbd{C-@key{LEFT}} and @kbd{C-@key{RIGHT}}.
+
+Depending on which window that has the focus, the meaning of the keys may alter.
+
+@subsection Summary
+
+@table @kbd
+@item @key{TAB}
+@itemx S-@key{TAB}
+To set focus on another group of windows.
+
+@item @key{LEFT}
+@itemx @key{RIGHT}
+To select another window within a group.
+
+@item @key{UP}
+@itemx @key{DOWN}
+To move the cursor within a window.
+
+@item C-@key{RIGHT}
+@itemx C-@key{LEFT}
+To switch between views.
+
+@end table
+
+@node Execution, Breakpoints, Moving around, Tutorial
+@section Execution
+@cindex execution
+
+@flushright
+@i{A small step for man}
+@i{one giant leap for mankind}@footnote{N. Armstrong was actually debugging when he made this remark and not when he took the first step on the moon.}
+@end flushright
+
+Let us continue with the tutorial. Run back to the Main-window and
+press @kbd{F3} to start the program and stop at the @code{main}
+function. To continue the program press @kbd{c} and the execution will
+(c)-ontinue from the @code{main}-function. The execution will run until:
+
+@itemize
+
+@item The program exits.
+
+@item The program receives a signal.
+
+@item The program hits a breakpoint or a watchpoint.
+
+@end itemize
+
+In our case to a signal stopped the execution.
+
+To start the program and not stop at the @code{main} function you
+could use the run command @key{r}. This will start the program over
+and it will stop at the same line as before.
+
+@subsection Doing small steps
+
+First start the program with the @kbd{F3} as in the previous chapter. To step
+through each line of the current function use the next command @kbd{n}. Try
+pressing @kbd{n} until the program finish, which is indicated in the Message
+window. Then next command does not step into functions, e.g. @code{sum ()}.
+
+To step into a function you have to use the step command @kbd{s}. Restart the
+execution with @kbd{F3}. This time use the @kbd{s} to step through the
+program. As you notice we now step into the @code{sum ()} function. When
+entering a new function the Stack and Frame windows are updated.
+
+If you want to continue to step through the code we have a small problem. You
+have to press @kbd{n} or @kbd{s} a large number of times. Fortunately there
+are other commands to get around this problem.
+
+@subsection Doing giant leaps
+
+If you have stopped the debugging e.g. in the @code{sum ()} function you can
+continue the execution with the continue command @kbd{c}. The program will
+then continue the execution until either the program exits or receive a signal.
+
+If you still want to use single step after the @code{for}-loop the continue
+command is not enough. Instead you could use the execute until command. First
+move the cursor using the @kbd{@key{UP}} and @kbd{@key{DOWN}} and position
+the cursor at the @code{return sum} line. The press @kbd{U}. Press `Ok' to
+verify the line. The program will now continue running until it hits the
+selected line and you can use the @kbd{n} to continue to step through the
+program.
+
+Instead of using the @kbd{U} to reach a specified line you could use the finish
+command, press @kbd{f}, to return to the @code{main ()} function.
+
+All of the above commands do not skip any line of the execution, but there
+are commands that do that. If the program is stopped in the @code{for}-loop
+and pressing @kbd{R} the execution will return to the @code{main ()} function.
+The difference compared to the finish command is that the return command returns
+immediately, instead of execute each line.
+
+Another way of getting out of the @code{for}-loop is using the jump command by
+pressing the @kbd{J} after selecting a line. The execution will then jump
+direct to the selected line and continue the execution until it exits or
+receive a signal.
+
+@subsection Tiny steps
+To examine the small details it is possible to doing a step for each
+instruction instead of each source line.
+
+Restart the program with @kbd{F3} and press @kbd{d} to start
+disassembly. Use the @kbd{C-@key{LEFT}} to go to the Disassemble
+view. No instead of using the @kbd{s} and @kbd{n} use @kbd{S} and
+@kbd{N} to step through the program. The Disassemble view and
+Regrister view will be updated for each step.
+
+Pressing @kbd{d} again will stop updating the Disassemble view.
+
+@subsection Source files
+So what if you want to set a breakpoint in another file that is not currently
+show? Press @kbd{F4} to bring up a list of source file name. Select a the file
+you want to set a breakpoint in and press @kbd{Enter}. This will show the
+selected file and you can set a new breakpoint.
+
+@subsection Summary
+
+@table @code
+
+@item @key{F3}
+Starts the program and stops at the @code{main} function.
+
+@item @key{r}
+Start the program from the beginning.
+
+@item @key{c}
+Continues the execution from where the program was stopped.
+
+@item @key{n}
+Execute the next line without stepping into a function.
+
+@item @key{s}
+Execute the next line and if it is a function call step into the function.
+
+@item @key{f}
+Finish the function. Finish the function and stop at the calling function.
+
+@item @key{U}
+Execute until a specified location.
+
+@item @key{R}
+Return immediately from a function.
+
+@item @key{J}
+Jump to specified location and continue the execution from there.
+
+@item @key{d}
+Set lvdbg in disassemble mode. Register and Disassemble view will be updated.
+@item @key{S}
+Do step instruction and step into functions.
+
+@item @key{N}
+Do step instruction and do not step into functions.
+
+@item @key{F4}
+Open a source file.
+
+@end table
+
+@node Breakpoints, The stack, Execution, Tutorial
+@section Breakpoints
+@cindex breakpoints
+
+@flushright
+@i{Stop! In the name of love}
+@i{-Holland--Dozier-Holland}
+@end flushright
+
+By setting breakpoints in the source file it is possible to stop the execution
+on certain lines. This chapter describe how to use the breakpoints in lvdbg.
+
+@subsection Breakpoints
+
+The chapter is using the following example 2 once more. Hit @kbd{F3} to start
+the program. Use the @kbd{UP} and @kbd{DOWN} to set the cursor at line with
+@code{int sum = 0;} in function @code{sum}. To set a breakpoint press @kbd{b}.
+Both the Main window and the Breakpoint window are updated with the breakpoint.
+In the Main window there will be a mark `Be' at the beginning of the line. The
+`B' means that there is a Breakpoint on the line. The `e' denotes that the 
+breakpoint is Enabled. In the Breakpoint window the breakpoint is shown as:
+
+@example
+ 1 bky 0x080484EA sum    0 1 example_2.c:7
+@end example
+
+The `1' is the breakpoint number. The hexadecimal number is the address of the
+breakpoint. The triplet `bke' means that it is a (b)reakpoint, that it should
+be (k)ept. The 'sum' is the function where the breakpoint is located. The 0
+tells how many times the breakpoint should be ignored before it stops the
+execution. The 1 shows which thread id that should be stopped. The last
+'example_2.c:7' says which file and line number the breakpoint belongs to.
+
+Try to start the execution by pressing @kbd{c}. The execution will start and
+when it comes to the breakpoint the execution will stop. A message is shown
+in the Messages window.
+
+@subsection Breakpoint options
+
+It is possible to set up more advanced breakpoints. Go to line 10 and press
+@kbd{B} to set an `advanced' breakpoint. A dialog will open with a set of
+options for the breakpoint. Try to set the `ignore' option to 5 and the 
+disposition to `Delete'. Resume the execution and see that the program stops
+at the new breakpoint. The disposition `Delete' means that the breakpoint is
+deleted once it hits.
+
+The `condition' option must be fullfilled if it is set before the breakpoint
+hits. E.g. set up a new break point with the condition to @code{sum > 0} and
+resume once more.
+
+@table @code
+@item Temporary
+If temporary is set the breakpoint will be deleted once it hits.
+
+@item Hardware
+The breakpoint is a hardware breakpoint.
+
+@item Condition.
+An optional condition that must be evaluated to true, if the breakpoint
+should hit, e.g. @code{sum > 0}.
+
+@item Ignore
+How many times the breakpoint should be ignore before stopping the execution.
+
+@item Thread
+Which thread the breakpoint should be valid to. If -1 all threads are could
+be stopped.
+
+@item Pending
+If enabled and the breakpoint cold not be set, e.g. the location is in a
+later loaded library, the breakpoint is set. If pending is disabled it is
+not possible to set a breakpoint in later added libraries.
+
+@item Disabled
+If the breakpoint should be disabled or enabled.
+
+@item Location
+Where the breakpoint should be set. The form is one of the following.
+@itemize
+@item
+filename:line number, e.g. @code{example_1.c:10}.
+@item
+function, e.g. @code{main}
+@item
+filename:function, e.g. @code{example_1.c:sum}.
+@item
+address, e.g. @code{0x08012345}.
+@end itemize
+@end table
+
+@subsection Watchpoints
+
+Watchpoints triggers a break if an expression is read, written or accessed.
+E.g. we could set a watchpoint that triggers when we write or change value
+of @code{sum} in the example. Restart the execution and set a watchpoint
+by pressing @kbd{w}. Set up the watchpoint for write access for the variable
+@code{ret}. When the program change the value of @code{ret} the watchpoint
+will be triggered.
+
+When the watchpoint goes out of scope, the watchpoint will be deleted.
+
+@subsection Summary
+
+@table @code
+@item b
+Insert a simple breakpoint
+
+@item B
+Insert a breakpoint with options
+
+@item w
+Insert a watchpoint.
+
+@item Location
+Where the breakpoint should be set. The form is one of the following.
+@itemize
+@item
+filename:line number, e.g. @code{example_1.c:10}.
+@item
+function, e.g. @code{main}
+@item
+filename:function, e.g. @code{example_1.c:sum}.
+@item
+address, e.g. @code{0x08012345}.
+@end itemize
+
+@end table
+
+@node The stack, Threads, Breakpoints, Tutorial
+@section The stack
+@cindex stack
+
+@flushright
+@i{Three programmers and one stack}
+@i{How many are left?}
+@end flushright
+
+The stack shows the backtrace of the current selected thread. The topmost
+row shows the current function. Second topmost shows the functions that called
+the topmost function, etc. The stack shows the level, the file, the line number
+and the current function.
+
+The Frame window shows the arguments used to call the function and the local
+variables and their current values. To change the frame, select the Stack
+window, @kbd{@key{TAB}} and use @kbd{@key{DOWN}} and @kbd{@key{UP}} to mark
+a frame. Pressing @kbd{@key{RET}} will update the Frame window with the
+selected frame's arguments and variables.
+
+@node Threads, Data, The stack, Tutorial
+@section Threads
+@cindex threads
+
+This chapter will explain how lvdbg handles the thread informations. The
+following code will by used as an example.
+
+@node Data, User input, Threads, Tutorial
+@section Moving around
+@cindex moving around
+
+@node User input,  , Data, Tutorial
+@section User input
+@cindex user input
+
+If the program that is debugged need user input from the debugger, you
+need to enter a non ncurse mode. This is done by pressing @kbd{m}. To
+go back to normal mode press @kbd{C-q}. In the non ncurse mode all
+input from stdin is directed to the debugger.
+
+This mode makes it possible to send non defined commands directly to
+the debugger.
+
+NOTE: In this mode the lvdbg does not parse the output from the debugger.
+
+@node Configuration, Key Bindings, Tutorial, Top
+@chapter Configuration
+@cindex configuration
+Settings for lvdbg is set in a configuration file. Lvdbg look in three places
+for the configuration file. The files are loaded in order.
+
+@enumerate
+
+@item @file{/etc/lvdbg.conf}
+@item @file{~/.lvdbg.conf}
+@item @file{./.lvdbg.conf}
+@end enumerate
+
+The @file{/etc/lvdbg.conf} is loaded first, if it exists. If a parameter is set
+two of the configurations files, the parameter from the latest loaded file is
+used. I.e. parameters in the local directory will be used if the file and
+parameters exist in @file{./.lvdbg.config}
+
+
+@menu
+* General::                     General concept
+* View layout::                 The layout of the view
+* Syntax highlighting::         Syntax highlighting
+* Misc options::                Misc options.
+@end menu
+
+@node General, View layout, Configuration, Configuration
+@section General
+@cindex configuration file
+
+The configuration parameters are devided into sub groups. Comments are
+started with an `#' and long options could be split into several lines
+by using '\' as the last token in a line.
+
+There is also a 'root' group with general options.
+
+@float Configuration, ex:conf_layout0.
+@example
+[ A Subgroup ]
+# Comments start with '#'
+ parameter 1 = Something. # Comment could be place at end of a line.
+ A long paramter = [... a long option @{ \
+                   .. could be split    \
+                   into more lines @} 
+
+[ B Subgroup ]
+ syntax = no
+
+@end example
+@end float
+
+@node View layout, Syntax highlighting, General, Configuration
+@section View layout
+@cindex view layout
+
+The view which consists of several windows could be configured. The parameter
+for the view layout is under subgroup 'Output Window' and the parameter is
+'layout'. The view is split is split in columns and rows and windows can be atop
+on each others if they have the same size and and position.
+
+@itemize
+
+@item @{name='Main'@},@{name='Messages'@}
+The two windows are in the same column, `Main' over `Messages'.
+
+@item [name='Main'],[name='Messages']
+The two windows are in the same row, `Main' to the left `Messages' is
+to the right.
+
+@item @{name='Main', name='Messages'@}
+Both `Main' and `Messages' are placed on top of each other with the
+same position and size.
+
+@end itemize
+
+The height of the windows in the same column are set by either set the
+percentage with @option{height='60'} or the parts of the whole column by
+@option{rows='4'}, 1/4 of the height. The corresponding width for windows in the
+same row are @option{width='60'} and @option{cols='5'}.
+
+@float Configuration, ex:conf_layout1.
+@example Layout
+[ Output Window ]
+layout = @{ \
+      [width='60',@{height='80',name='Main'@}, \
+             @{name='Messages',name='Console',\
+              name='Target',name='Log',name='Responses', \
+              name='Libraries'@}], \
+      [@{rows='4',name='Threads'@},       \
+       @{rows='3',name='Breakpoints'@},   \
+       @{rows='2',name='Stack'@},         \
+       @{name='Frame'@}] \
+     @}
+
+@end example
+@end float
+
+The windows names are not case sensitive.
+
+The lvdbg supports different views, e.g. the disassembly and register
+view. To add more views use the `view' command.
+
+@float Configuration , ex:conf_layout2.
+@example Layout
+[ Output Window ]
+layout = @{ \
+      view=@{[width='60',@{height='80',name='Main'@}, \
+             @{name='Messages',name='Console',\
+              name='Target',name='Log',name='Responses', \
+              name='Libraries'@}], \
+      [@{rows='4',name='Threads'@},       \
+       @{rows='3',name='Breakpoints'@},   \
+       @{rows='2',name='Stack'@},         \
+       @{name='Frame'@}]@}, \
+      view=@{[width='65',name='Disassemble'],[name='Registers']@}
+     @}
+
+@end example
+@end float
+
+The allowed windows, finger crossed that this list is updated.
+
+@itemize
+
+@item Main
+
+@item Breakpoints
+
+@item Threads
+
+@item Stack
+
+@item Frame
+
+@item Libraries
+
+@item Log
+
+@item Console
+
+@item Target
+
+@item Responses
+
+@item Messages
+
+@item Disassemble
+
+@item Registers
+
+@end itemize
+
+@node Syntax highlighting, Misc options, View layout, Configuration
+@section Syntax highlighting
+@cindex syntax highlighting
+
+The syntax highlighting could be turned on by the parameter @option{enabled} in
+the group @option{Syntax}. To set a syntax for e.g. `int' you need to define
+three parameters.
+
+@itemize
+
+@item @option{groups = @{@{id='4',type='1',match='int'@}@}}
+
+@item @option{attr = @{color='1',attr='0x00000'@}}
+
+@item @option{colors = @{fg_color='5',bg_color='1'@}}
+
+@end itemize
+
+@table @option
+
+@item id='4'
+The id to the set of attributes that should be used for the group.
+
+@item type='0|1|2'
+1 means that @option{match} denotes a whole word. 1 means that the
+@option{match} could be over several lines, e.g. `/* ... */'. 0 means
+neither of the above.
+
+@item match='<expression>'
+Sets the expression to highlight. A small set of regexps could be used to
+match. See the  configuration that got install with lgdb for examples.
+
+@item color
+Set the color for an id. The colors are defined in the @option{colors}
+
+@item attr
+Sets the attributes for the syntax highlighting. See the configuration file for
+valid values.
+
+@item fg_color
+The foreground color used for the match.
+
+@item bg_color
+Guess.
+@end table
+
+All indecies are '1' base, i.e. color='0' does not exists.
+
+@node Misc options,  , Syntax highlighting, Configuration
+@section Misc options
+@cindex misc options
+
+@node Key Bindings, Copying This Manual, Configuration, Top
+@chapter Key Bindings
+@cindex key bindings
+
+This is the default key bindings.
+
+@table @code
+
+@item @key{F3}
+Set a temporary breakpoint at main, and start the execution. The program will
+stop at the function @samp{main()}.
+
+@item @key{r}
+Run program. Program will restart and be run until breakpoint, signal received,
+etc, etc.
+
+@item @key{c}
+Continue run the program from last stop.
+
+@item @key{s}
+Execute the next source line. Step into functions.
+
+@item @key{n}
+Execute the next source line. Do not step into functions.
+
+@item @key{S}
+Execute the next instruction. Step into functions. One source line could have
+many instructions.
+
+@item @key{N}
+Execute the next instruction. Do not step into functions. One source line could
+have many instructions.
+
+@item @key{f}
+Finish the function. Execute until end of function.
+
+@item @key{R}
+Return from function immediately.
+
+@item @key{J}
+Jump to the cursor location.
+
+@item @key{U}
+Continue the execution until the cursor location.
+
+@item @key{i}
+Send a signal to the program.
+
+@item @key{I}
+Send a signal to the program. A thread could be specified.
+
+@item @key{b}
+Set/delete a breakpoint at the cursor location.
+
+@item @key{B}
+Set/update a breakpoint at the cursor location. Breakpoint options are
+available in the pop-up.
+
+@item @key{w}
+Set a watchpoint.
+
+@item @key{F4}
+Bring up a pop-up for opening a file in the Main-window.
+
+@item @key{F5}
+Bring up a pop-up for opening a file in the Main-window. Available files are
+those that are from the program which is currently debugged.
+
+@item @key{m}
+Put lvdbg in non ncurse mode. The stdin is directed to the debugger
+and output from debugger is directed to stdout. It is possible to send
+commands to the debugger in this mode. NOTE 1: No parsing of
+the output is done. NOTE 2: To stop the mode and go back to ncurse
+mode press @kbd{C-q}.
+
+@item @key{C-q}
+In no ncurse mode, go back to ncurse mode.
+
+@item @key{q}
+Sad but true - quit debugging.
+
+@end table
+
+@node Copying This Manual, List of examples, Key Bindings, Top
+@appendix Copying This Manual
+
+@menu
+* GNU Free Documentation License::  License for copying this manual.
+@end menu
+@include fdl.texi
+
+@node List of examples, Index, Copying This Manual, Top
+@unnumbered List of examples
+@listoffloats Example
+
+@node Index,  , List of examples, Top
+@unnumbered Index
+
+@printindex cp
+
+@bye

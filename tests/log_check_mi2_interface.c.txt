@@ -1,0 +1,9 @@
+Running suite mi2_interface
+check_mi2_interface.c:222:P:mi2_interface_create:test_mi2_interface_create:0: Passed
+check_mi2_interface.c:339:P:mi2_interface_do_action:test_mi2_interface_do_action:0: Passed
+check_mi2_interface.c:418:P:mi2_interface_parse:test_mi2_interface_parse:0: Passed
+check_mi2_interface.c:744:P:mi2_interface_bp:test_mi2_interface_bp:0: Passed
+check_mi2_interface.c:1149:P:mi2_interface_exec:test_mi2_interface_exec:0: Passed
+check_mi2_interface.c:1178:P:mi2_interface_dis:test_mi2_interface_dis:0: Passed
+Results for all suites run:
+100%: Checks: 6, Failures: 0, Errors: 0

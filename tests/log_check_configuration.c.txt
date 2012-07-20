@@ -1,0 +1,8 @@
+Running suite conf
+check_configuration.c:37:P:new:test_conf_new:0: Passed
+check_configuration.c:58:P:add_group:test_conf_add_group:0: Passed
+check_configuration.c:127:P:default:test_conf_default:0: Passed
+check_configuration.c:298:P:file:test_conf_file:0: Passed
+check_configuration.c:430:P:errors:test_conf_errors:0: Passed
+Results for all suites run:
+100%: Checks: 5, Failures: 0, Errors: 0

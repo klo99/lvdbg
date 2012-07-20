@@ -1,0 +1,25 @@
+Running suite mi2_parser
+check_mi2_parser.c:125:P:mi2_parser_create:test_mi2_parser_create:0: Passed
+check_mi2_parser.c:158:P:mi2_parser_parse:test_mi2_parser_parse:0: Passed
+check_mi2_parser.c:255:P:mi2_parser_parse_threads:test_mi2_parser_parse_threads:0: Passed
+check_mi2_parser.c:307:P:mi2_parser_parse_files:test_mi2_parser_parse_files:0: Passed
+check_mi2_parser.c:392:P:mi2_parser_parse_asm:test_mi2_parser_parse_asm:0: Passed
+check_mi2_parser.c:452:P:mi2_parser_parse_regs:test_mi2_parser_parse_regs:0: Passed
+check_mi2_parser.c:576:P:mi2_parser_parse_bkpt:test_mi2_parser_parse_bkpt:0: Passed
+check_mi2_parser.c:636:P:mi2_parser_parse_variables:test_mi2_parser_parse_variables:0: Passed
+check_mi2_parser.c:742:P:mi2_parser_parse_stack:test_mi2_parser_parse_stack:0: Passed
+check_mi2_parser.c:767:P:mi2_parser_parse_running:test_mi2_parser_parse_running:0: Passed
+check_mi2_parser.c:785:P:mi2_parser_parse_connected:test_mi2_parser_parse_connected:0: Passed
+check_mi2_parser.c:804:P:mi2_parser_parse_error:test_mi2_parser_parse_error:0: Passed
+check_mi2_parser.c:822:P:mi2_parser_parse_exit:test_mi2_parser_parse_exit:0: Passed
+check_mi2_parser.c:1141:P:mi2_parser_parse_thread:test_mi2_parser_parse_thread:0: Passed
+check_mi2_parser.c:1207:P:mi2_parser_parse_library:test_mi2_parser_parse_library:0: Passed
+check_mi2_parser.c:867:P:mi2_parser_parse_async_running:test_mi2_parser_parse_async_running:0: Passed
+check_mi2_parser.c:990:P:mi2_parser_parse_async_stopped:test_mi2_parser_parse_async_stopped:0: Passed
+check_mi2_parser.c:1349:P:mi2_parser_parse_frame:test_mi2_parser_parse_frame:0: Passed
+check_mi2_parser.c:1408:P:mi2_parser_bp:test_mi2_parser_bp:0: Passed
+check_mi2_parser.c:1482:P:mi2_parser_wp:test_mi2_parser_wp:0: Passed
+check_mi2_parser.c:1532:P:mi2_set_get_thread:test_mi2_set_get_thread:0: Passed
+check_mi2_parser.c:1576:P:mi2_get_location:test_mi2_get_location:0: Passed
+Results for all suites run:
+100%: Checks: 22, Failures: 0, Errors: 0

@@ -1,0 +1,6 @@
+BUILDING
+========
+
+To build examples:
+
+>make CFLAGS='-O0 -g' -C docs/example

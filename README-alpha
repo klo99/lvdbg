@@ -1,0 +1,7 @@
+This is an alpha release. Before going to a release candidate a number of things
+need to be fixed. For details see the developer documents or docs/main_doxy.txt.
+
+The current overview status of lvdbg is:
+- Not all features are implemented.
+- Some features need to be improved.
+- Lvdbg could crash, e.g. if layout is not ok.

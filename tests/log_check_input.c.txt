@@ -1,0 +1,6 @@
+Running suite input
+check_input.c:510:P:input_create:test_input_create:0: Passed
+check_input.c:563:P:input_break:test_input_break:0: Passed
+check_input.c:747:P:input_exec:test_input_exec:0: Passed
+Results for all suites run:
+100%: Checks: 3, Failures: 0, Errors: 0

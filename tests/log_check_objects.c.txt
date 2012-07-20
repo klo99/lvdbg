@@ -1,0 +1,9 @@
+Running suite objects
+check_objects.c:94:P:breakpoint:test_breakpoint:0: Passed
+check_objects.c:212:P:thread:test_thread:0: Passed
+check_objects.c:279:P:library:test_library:0: Passed
+check_objects.c:467:P:stack:test_stack:0: Passed
+check_objects.c:525:P:asm:test_asm:0: Passed
+check_objects.c:565:P:reg:test_reg:0: Passed
+Results for all suites run:
+100%: Checks: 6, Failures: 0, Errors: 0

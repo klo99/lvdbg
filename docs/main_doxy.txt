@@ -1,0 +1,98 @@
+/**
+@mainpage lvdbg - a simple frontend debugger.
+
+Lvdbg is a simple frontend debugger that uses ncurses for it's output. This is
+the developer help files.
+
+To build this documantation run:
+
+@code
+>make -C docs devel_docs
+@endcode
+
+@section sect_short_description A short file description
+
+A short description for some/most of the files and their interactions.
+
+ - input.c: Handles the user input. Calls functions in view.c for updating view
+            windows, e.g. scrolling. Also calls functions in the mi2_interface.c
+            for sending commands to the debugger, e.g. -exec-next.
+ - mi2_interface.c: Setups and sends commands to the debugger.
+ - mi2_parser.c: Parses messages sent from the dubugger. Calls functions in
+                 view.c to update the view. Also holds the current state of the
+                 debugger, e.g. breakpoints, stack, etc.
+ - view.c: Handles the view of all windows. Calls function in win_handler.c to
+           do the actual updates on the screen.
+ - win_handler.c: Handles the output to the screen and holds information about
+                  the windows, e.g. text in the windows. Uses text.c to store
+                  the texts in the windows.
+ - debug.h: Handles the various output messages, both errors and debug
+            informations.
+ - configuration.c: Handles the configuration files.
+ - misc.c: Common utility functions.
+ - pseudo_fork.c: Sets up a pseudo terminal to run the debugger in.
+ - win_form.c: A set of curses windows for user interactions.
+ - vsscanner.c: Used for highlighting source code files (and other windows).
+
+@section sect_to_build To build
+To build the project run:
+
+@code
+>autoreconf -f --install
+>./configure
+>make
+@endcode
+
+See @code >configure --help @endcode for configuration options.
+
+@section sect_tests Tests
+
+The project uses the Check framework for the unit tests, which is located in
+tests/ directory, see tests/. To run the test
+@code
+>make check
+@endcode
+
+To see the test coverage execute, must be configured with the '--enable-gcov'
+option:
+
+@code
+>make -C tests cov
+@endcode
+
+The output is in /tests/lcov_html/index.html.
+
+@todo Add loading core file.
+
+@todo Add attach to process.
+
+@todo Fix program options.
+
+@todo Resizing of the window is not supported.
+
+@todo Resizing view/windows.
+
+@todo Improve disassemble view/mode.
+
+@todo Better handling of output from debugged program.
+
+@todo Handle variable objects from gdb.
+
+@todo Support more features of gdb.
+
+@todo auto completion while e.g. typing breakpoint expressions.
+
+@todo Unit tests for win_form.
+
+@todo Laundry.
+
+@todo Not discarding source files when showing another source file. (Keep win
+      structure and add a new one a top of the main?)
+
+@todo Improve syntax highlighting.
+
+@bug Not defining all windows in the configuration layout will cause a crash.
+
+@bug The view's are not always updated, (need e.g. step to update the views).
+     E.g. coming back from 'non-ncurse' mode.
+*/

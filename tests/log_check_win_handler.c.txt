@@ -1,0 +1,12 @@
+Running suite win_handler
+check_win_handler.c:33:P:win_handler_create:test_win_handler_create:0: Passed
+check_win_handler.c:81:P:win_handler_text:test_win_handler_text:0: Passed
+check_win_handler.c:152:P:win_handler_scroll:test_win_handler_scroll:0: Passed
+check_win_handler.c:195:P:win_handler_mark:test_win_handler_mark:0: Passed
+check_win_handler.c:243:P:win_handler_move_cursor:test_win_handler_move_cursor:0: Passed
+check_win_handler.c:272:P:win_handler_tag:test_win_handler_tag:0: Passed
+check_win_handler.c:307:P:win_handler_get_curpos:test_win_handler_get_curpos:0: Passed
+check_win_handler.c:343:P:win_handler_get_line:test_win_handler_get_line:0: Passed
+check_win_handler.c:371:P:win_handler_syntax:test_win_handler_syntax:0: Passed
+Results for all suites run:
+100%: Checks: 9, Failures: 0, Errors: 0

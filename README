@@ -1,0 +1,36 @@
+lvdbg:
+=====
+
+A simple debugger front end.
+
+BUILDING:
+========
+
+To build lvdbg run:
+
+>autoreconf --install
+>./configure
+>make
+
+See ./configure --help for configuration options.
+
+To build developer documentation:
+
+>make -C docs devel_docs
+
+To run unit tests:
+
+>make check
+
+To see test coverage:
+
+>make -C tests cov
+
+The output coverage is in tests/lcov_html
+
+Configuration:
+=============
+A example of a configuration file should be installed under the pkd_data
+directory. The file is in data/ directory in the source tree.
+
+/Authors

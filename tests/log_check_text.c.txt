@@ -1,0 +1,6 @@
+Running suite text
+check_text.c:17:P:text_create:test_text_create:0: Passed
+check_text.c:67:P:text_line:test_text_line:0: Passed
+check_text.c:129:P:text_load:test_text_load:0: Passed
+Results for all suites run:
+100%: Checks: 3, Failures: 0, Errors: 0

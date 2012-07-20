@@ -1,0 +1,10 @@
+Running suite vsscanner
+check_vsscanner.c:17:P:vsscanner_create:test_vsscanner_create:0: Passed
+check_vsscanner.c:46:P:vsscanner_add_rule:test_vsscanner_add_rule:0: Passed
+check_vsscanner.c:149:P:vsscanner_scan:test_vsscanner_scan:0: Passed
+check_vsscanner.c:336:P:vsscanner_scan_bracket:test_vsscanner_scan_bracket:0: Passed
+check_vsscanner.c:460:P:vsscanner_scan_bracket_none:test_vsscanner_scan_bracket_none:0: Passed
+check_vsscanner.c:688:P:vsscanner_scan_groups:test_vsscanner_scan_groups:0: Passed
+check_vsscanner.c:882:P:vsscanner_scan_complex:test_vsscanner_scan_complex:0: Passed
+Results for all suites run:
+100%: Checks: 7, Failures: 0, Errors: 0

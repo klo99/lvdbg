@@ -1,0 +1,6 @@
+Running suite get_next_param
+check_misc.c:225:P:str_next:test_misc_str_next:0: Passed
+check_misc.c:264:P:unescape:test_misc_unescape:0: Passed
+check_misc.c:284:P:safe_write:test_misc_safe_write:0: Passed
+Results for all suites run:
+100%: Checks: 3, Failures: 0, Errors: 0
